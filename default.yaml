@@ -1,0 +1,14 @@
+config_version: '20241231'
+schema_list:
+  - schema: nature_code
+switcher:
+  caption: 「开关选单」
+  hotkeys:
+    - Control+grave
+  save_options:
+    - ascii_punct
+    - full_shape
+    - traditionalization
+  fold_options: false
+
+# vim: fdm=indent

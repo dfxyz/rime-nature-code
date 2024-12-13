@@ -1,0 +1,197 @@
+schema:
+  schema_id: nature_code
+  name: 自然码
+  version: 0.1.0
+
+# 候选词数量
+menu:
+  page_size: 7
+
+# 开关设置
+switches:
+  - name: ascii_mode
+    states: [ 中, A ]
+  - name: ascii_punct
+    states: [ ¥, $ ]
+  - name: full_shape
+    states: [ 半, 全 ]
+  - name: traditionalization
+    states: [ 简, 繁 ]
+
+# 输入引擎
+engine:
+  processors:
+    - lua_processor@*processor__select_character # 拦截以词定字的相关按键
+    - ascii_composer # 拦截中英文状态切换相关按键
+    - recognizer # 拦截输入后符合特定模式的按键
+    - key_binder # 拦截处理自定义快捷键
+    - speller # 拦截处理字母表配置中的字符
+    - punctuator # 拦截处理用作标点符号的字符
+    - selector # 拦截处理用于定位候选词的按键
+    - navigator # 拦截处理用于光标移动的按键
+    - express_editor # 拦截处理空格、回车、退格等功能性按键
+  segmentors:
+    - ascii_segmentor # 标记所有ASCII字符分段为raw
+    - matcher # 标记匹配特定模式的字符片段
+    - abc_segmentor # 标记所有小写字母分段为abc
+    - punct_segmentor # 标记配置为标点符号的字符分段为punct
+    - fallback_segmentor # 标记剩余字符分段为raw
+  translators:
+    - punct_translator # 转换标点符号
+    - script_translator # 转换拼音
+    - lua_translator@*translator__unicode # 处理unicode输入
+    - lua_translator@*translator__gc # 触发Lua的垃圾回收
+  filters:
+    - simplifier@traditionalize # 简繁转换
+    - uniquifier # 去重
+
+# 词典设置
+translator:
+  dictionary: nature_code
+
+# 标点符号
+punctuator:
+  full_shape:
+    ' ' : '　'
+    ',' : '，'
+    '.' : '。'
+    '<' : [ '《', '〈' ]
+    '>' : [ '》', '〉' ]
+    '/' : [ '／', '÷' ]
+    '?' : '？'
+    ';' : '；'
+    ':' : '：'
+    '''' : { pair: [ '‘', '’' ] }
+    '"' : { pair: [ '“', '”' ] }
+    '\' : [ '＼', '、' ]
+    '|' : [ '｜', '·' ]
+    '`' : '｀'
+    '~' : '～'
+    '!' : '！'
+    '@' : '＠'
+    '#' : '＃'
+    '%' : '％'
+    '$' : '￥'
+    '^' : '……'
+    '&' : '＆'
+    '*' : [ '＊', '×', '・' ]
+    '(' : '（'
+    ')' : '）'
+    '-' : '－'
+    '_' : '——'
+    '+' : '＋'
+    '=' : '＝'
+    '[' : [ '【', '〖', '［' ]
+    ']' : [ '】', '〗', '］' ]
+    '{' : [ '「', '『', '｛' ]
+    '}' : [ '」', '』', '｝' ]
+  half_shape:
+    ',' : '，'
+    '.' : '。'
+    '<' : '《'
+    '>' : '》'
+    '/' : /
+    '?' : '？'
+    ';' : '；'
+    ':' : '：'
+    '''' : { pair: [ '‘', '’' ] }
+    '"' : { pair: [ '“', '”' ] }
+    '\' : '、'
+    '|' : '|'
+    '`' : '`'
+    '~' : '~'
+    '!' : '！'
+    '@' : '@'
+    '#' : '#'
+    '%' : '%'
+    '$' : '¥'
+    '^' : '……'
+    '&' : '&'
+    '*' : '*'
+    '(' : '（'
+    ')' : '）'
+    '-' : '-'
+    '_' : '——'
+    '+' : '+'
+    '=' : '='
+    '[' : '【'
+    ']' : '】'
+    '{' : '「'
+    '}' : '」'
+
+# 中英状态切换
+ascii_composer:
+  good_old_caps_lock: true # CapsLock切换大小写
+  switch_key:
+    Caps_Lock: clear # 丢弃已输入内容再切换成大写模式
+    Shift_L: commit_code # 上屏已输入内容再切换到英文状态
+    Shift_R: noop
+    Control_L: noop
+    Control_R: noop
+
+# 按键绑定
+key_binder:
+  selector_character:
+    # 左右方括号以词定字
+    first: bracketleft
+    last: bracketright
+  bindings:
+    # Ctrl+h 退格
+    - { when: composing, accept: Control+h, send: BackSpace } 
+
+    # -/+ 翻页
+    - { when: composing, accept: minus, send: Page_Up }
+    - { when: composing, accept: equal, send: Page_Down }
+
+    # Tab/Shift+Tab 切换候选
+    - { when: composing, accept: Tab, send: Down }
+    - { when: composing, accept: Shift+Tab, send: Up }
+
+# 输入字符串模式识别
+recognizer:
+  patterns:
+    unicode: '^U[0-9a-f]+' # 使用unicode来输入字符
+
+# 映射自然码
+speller:
+  alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ # 大写字母用于混合输入
+  algebra:
+    - erase/^xx$/
+    - derive/^([jqxy])u$/$1v/
+    - derive/^([aoe])([ioun])$/$1$1$2/
+    - xform/^([aoe])(ng)?$/$1$1$2/
+    - xform/iu$/Ⓠ/
+    - xform/[iu]a$/Ⓦ/
+    - xform/[uv]an$/Ⓡ/
+    - xform/[uv]e$/Ⓣ/
+    - xform/ing$|uai$/Ⓨ/
+    - xform/^sh/Ⓤ/
+    - xform/^ch/Ⓘ/
+    - xform/^zh/Ⓥ/
+    - xform/uo$/Ⓞ/
+    - xform/[uv]n$/Ⓟ/
+    - xform/(.)i?ong$/$1Ⓢ/
+    - xform/[iu]ang$/Ⓓ/
+    - xform/(.)en$/$1Ⓕ/
+    - xform/(.)eng$/$1Ⓖ/
+    - xform/(.)ang$/$1Ⓗ/
+    - xform/ian$/Ⓜ/
+    - xform/(.)an$/$1Ⓙ/
+    - xform/iao$/Ⓒ/
+    - xform/(.)ao$/$1Ⓚ/
+    - xform/(.)ai$/$1Ⓛ/
+    - xform/(.)ei$/$1Ⓩ/
+    - xform/ie$/Ⓧ/
+    - xform/ui$/Ⓥ/
+    - xform/(.)ou$/$1Ⓑ/
+    - xform/in$/Ⓝ/
+    - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
+
+# 简繁转换
+traditionalize:
+  option_name: traditionalization
+  opencc_config: s2t.json
+  tips: none
+  tags: [ abc ]
+
+# vim: fdm=indent
