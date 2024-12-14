@@ -143,9 +143,11 @@ key_binder:
     - { when: composing, accept: minus, send: Page_Up }
     - { when: composing, accept: equal, send: Page_Down }
 
-    # Tab/Shift+Tab 切换候选
+    # Tab/Shift+Tab/Ctrl+p/Ctrl+n 切换候选
     - { when: composing, accept: Tab, send: Down }
     - { when: composing, accept: Shift+Tab, send: Up }
+    - { when: composing, accept: Control+p, send: Up }
+    - { when: composing, accept: Control+n, send: Down }
 
 # 输入字符串模式识别
 recognizer:
