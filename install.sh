@@ -16,7 +16,9 @@ ln -s $PWD/dicts $rimeDir
 ln -s $PWD/lua $rimeDir
 ln -sf $PWD/*.yaml $rimeDir
 
-if ! $onWindows; then
+if $onWindows; then
+    ln -sf $PWD/themes/weasel.yaml $rimeDir
+else
     mkdir -p ~/.local/share/fcitx5/themes/CandyPaper
     ln -sf $PWD/themes/fcitx5.conf ~/.local/share/fcitx5/themes/CandyPaper/theme.conf
 fi
