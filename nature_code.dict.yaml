@@ -5,7 +5,6 @@ sort: by_weight
 
 import_tables:
   - dicts/8105
-  - dicts/41448
   - dicts/base
   - dicts/ext
   - dicts/tencent

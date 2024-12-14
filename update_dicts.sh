@@ -18,6 +18,6 @@ if [[ $? != 0 ]]; then
     exit 1
 fi
 
-rsync -ahvP --exclude='corrections.dict.yaml' cn_dicts/ ../../dicts/
+rsync -ahvP --exclude='41448.dict.yaml' --exclude='corrections.dict.yaml' cn_dicts/ ../../dicts/
 rsync -ahvP cn_dicts_cell/ ../../dicts/cell/
 echo "dictionaries updated from 'rime-frost'"
