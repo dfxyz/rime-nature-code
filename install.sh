@@ -1,14 +1,22 @@
 #!/usr/bin/env bash
 
-if [[ $OS == "Windows_NT" ]]; then
-    targetDir=$APPDATA/Rime
+[[ $OS == "Windows_NT" ]] && onWindows=true || onWindows=false
+
+if $onWindows; then
+    rimeDir=$APPDATA/Rime
 else
-    targetDir=~/.local/share/fcitx5/rime
+    rimeDir=~/.local/share/fcitx5/rime
 fi
 
-[[ -e $targetDir/dicts ]] && rm -rf $targetDir/dicts
-[[ -e $targetDir/lua ]] && rm -rf $targetDir/lua
+mkdir -p $rimeDir
 
-ln -s $PWD/dicts $targetDir
-ln -s $PWD/lua $targetDir
-ln -sf $PWD/*.yaml $targetDir
+[[ -e $rimeDir/dicts ]] && rm -rf $rimeDir/dicts
+ln -s $PWD/dicts $rimeDir
+[[ -e $rimeDir/lua ]] && rm -rf $rimeDir/lua
+ln -s $PWD/lua $rimeDir
+ln -sf $PWD/*.yaml $rimeDir
+
+if ! $onWindows; then
+    mkdir -p ~/.local/share/fcitx5/themes/CandyPaper
+    ln -sf $PWD/themes/fcitx5.conf ~/.local/share/fcitx5/themes/CandyPaper/theme.conf
+fi
