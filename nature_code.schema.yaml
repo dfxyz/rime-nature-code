@@ -11,6 +11,7 @@ menu:
 switches:
   - name: ascii_mode
     states: [ 中, A ]
+    reset: 0
   - name: ascii_punct
     states: [ ¥, $ ]
   - name: full_shape
@@ -131,7 +132,7 @@ ascii_composer:
 
 # 按键绑定
 key_binder:
-  selector_character:
+  select_character:
     # 左右方括号以词定字
     first: bracketleft
     last: bracketright
