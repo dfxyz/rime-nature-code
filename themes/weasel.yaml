@@ -10,7 +10,7 @@ style:
   font_face: 'Microsoft YaHei UI' # 全局字体
   font_point: 11 # 全局字体字号
 
-  inline_preedit: true # 行内显示预编辑区
+  inline_preedit: false # 行内显示预编辑区
   preedit_type: composition # 预编辑区内容：composition（编码）； preview（选中的候选）；preview_all（全部候选）
 
   fullscreen: false # 候选窗口全屏显示
