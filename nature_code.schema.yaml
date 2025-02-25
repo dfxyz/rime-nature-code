@@ -160,35 +160,34 @@ speller:
   alphabet: abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ # 大写字母用于混合输入
   algebra:
     - erase/^xx$/
-    - derive/^([jqxy])u$/$1v/
     - derive/^([aoe])([ioun])$/$1$1$2/
     - xform/^([aoe])(ng)?$/$1$1$2/
-    - xform/iu$/Ⓠ/
-    - xform/[iu]a$/Ⓦ/
-    - xform/[uv]an$/Ⓡ/
-    - xform/[uv]e$/Ⓣ/
-    - xform/ing$|uai$/Ⓨ/
-    - xform/^sh/Ⓤ/
-    - xform/^ch/Ⓘ/
-    - xform/^zh/Ⓥ/
-    - xform/uo$/Ⓞ/
-    - xform/[uv]n$/Ⓟ/
-    - xform/(.)i?ong$/$1Ⓢ/
-    - xform/[iu]ang$/Ⓓ/
-    - xform/(.)en$/$1Ⓕ/
-    - xform/(.)eng$/$1Ⓖ/
-    - xform/(.)ang$/$1Ⓗ/
-    - xform/ian$/Ⓜ/
-    - xform/(.)an$/$1Ⓙ/
-    - xform/iao$/Ⓒ/
-    - xform/(.)ao$/$1Ⓚ/
-    - xform/(.)ai$/$1Ⓛ/
-    - xform/(.)ei$/$1Ⓩ/
-    - xform/ie$/Ⓧ/
-    - xform/ui$/Ⓥ/
-    - xform/(.)ou$/$1Ⓑ/
-    - xform/in$/Ⓝ/
-    - xlit/ⓆⓌⓇⓉⓎⓊⒾⓄⓅⓈⒹⒻⒼⒽⓂⒿⒸⓀⓁⓏⓍⓋⒷⓃ/qwrtyuiopsdfghmjcklzxvbn/
+    - xform/iu$/Ｑ/
+    - xform/[iu]a$/Ｗ/
+    - xform/uan$/Ｒ/
+    - xform/[uv]e$/Ｔ/
+    - xform/ing$|uai$/Ｙ/
+    - xform/^sh/Ｕ/
+    - xform/^ch/Ｉ/
+    - xform/^zh/Ｖ/
+    - xform/uo$/Ｏ/
+    - xform/un$/Ｐ/
+    - xform/(.)i?ong$/$1Ｓ/
+    - xform/[iu]ang$/Ｄ/
+    - xform/(.)en$/$1Ｆ/
+    - xform/(.)eng$/$1Ｇ/
+    - xform/(.)ang$/$1Ｈ/
+    - xform/ian$/Ｍ/
+    - xform/(.)an$/$1Ｊ/
+    - xform/iao$/Ｃ/
+    - xform/(.)ao$/$1Ｋ/
+    - xform/(.)ai$/$1Ｌ/
+    - xform/(.)ei$/$1Ｚ/
+    - xform/ie$/Ｘ/
+    - xform/ui$/Ｖ/
+    - xform/(.)ou$/$1Ｂ/
+    - xform/in$/Ｎ/
+    - xlit/ＱＷＲＴＹＵＩＯＰＳＤＦＧＨＭＪＣＫＬＺＸＶＢＮ/qwrtyuiopsdfghmjcklzxvbn/
 
 # 简繁转换
 traditionalize:
